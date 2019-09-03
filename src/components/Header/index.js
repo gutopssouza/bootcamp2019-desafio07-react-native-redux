@@ -1,15 +1,20 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Wrapper, Container, Logo, BasketContainer, ItemCount } from './styles';
 
-function Header({ navigation, cartSize }) {
+export default function Header({ navigation }) {
+  const cartSize = useSelector(state => state.cart.length);
+
   return (
     <Wrapper>
       <Container>
-        <Logo />
+        <TouchableOpacity onPress={() => navigation.navigate('Main')}>
+          <Logo />
+        </TouchableOpacity>
         <BasketContainer onPress={() => navigation.navigate('Cart')}>
           <Icon name="shopping-basket" color="#FFF" size={24} />
           <ItemCount>{cartSize || 0}</ItemCount>
@@ -18,10 +23,3 @@ function Header({ navigation, cartSize }) {
     </Wrapper>
   );
 }
-
-export default connect(
-  state => ({
-    cartSize: state.cart.length,
-  }),
-  null
-)(Header);
